@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Test {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @unique
+  age       Int?
+  firma     Boolean  @default(false)
+  fecha     DateTime @db.Date
+  userId    String
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+model User {
+  username String @id @unique
+  email    String @unique
+  grupos   String
+
+  given_name String? @default("Nombre")
+
+  avatar    String  @default("noavatar.png")
+  nickname  String  @unique @default("Sin alias")
+  familiafp String? @default("Sin familia")
+  ciclofp   String? @default("Sin ciclo")
+  curso     String? @default("Sin curso")
+
+  finPerfil      Boolean     @default(false)
+  pretest        Boolean     @default(false)
+  posttest       Boolean     @default(false)
+  token_pretest  String      @default("")
+  token_posttest String      @default("")
+  createdAt      DateTime    @default(now()) @db.Timestamp(0)
+  updatedAt      DateTime    @default(now()) @db.Timestamp(0)
+  actividades    Actividad[]
+}
+
+model Actividad {
+  id        Int    @id @default(autoincrement())
+  code      Int
+  nombre    String
+  maxpoints Int    @default(20)
+
+  token String @unique
+
+  points   Int
+  username String
+
+  user User @relation(fields: [username], references: [username])
+
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+model EscapareteSession {
+  id          String  @id @default(uuid()) @db.Uuid
+  equipo      String
+  casoId      String
+  descripcion String
+  imagenPath  String
+  evaluado    Boolean @default(false)
+
+  createdAt    DateTime      @default(now()) @db.Timestamp(0)
+  updatedAt    DateTime      @default(now()) @db.Timestamp(0)
+  itemRubricas ItemRubrica[]
+}
+
+model ItemRubrica {
+  id                     String            @id @default(cuid())
+  rubricaId              String?
+  name                   String
+  description            String
+  value                  Int
+  nivel                  String
+  justification          String
+  session                EscapareteSession @relation(fields: [escaparametroSessionId], references: [id], onDelete: Cascade)
+  escaparametroSessionId String            @db.Uuid
+  updatedAt              DateTime          @updatedAt
+  createdAt              DateTime          @default(now())
+
+  @@index([escaparametroSessionId])
+}
+
+model CVApplicant {
+  id           String   @id @default(uuid()) @db.Uuid
+  username     String   @unique
+  fullName     String
+  email        String?
+  passwordHash String
+  sector       String
+  cvFilename   String
+  cvData       Bytes
+  valoracion   String   @default("")
+  fortalezas   String   @default("")
+  mejoras      String   @default("")
+  createdAt    DateTime @default(now()) @db.Timestamp(0)
+  cvUploadedAt DateTime @default(now()) @db.Timestamp(3)
+  evaluations  CVEvaluation[]
+}
+
+model CVEvaluation {
+  id           String      @id @default(uuid()) @db.Uuid
+  applicantId  String      @db.Uuid
+  cvFilename   String
+  cvUploadedAt DateTime    @db.Timestamp(3)
+  rubric       Json
+  questions    Json
+  answers      Json        @default("[]")
+  nextQuestion Int         @default(0)
+  createdAt    DateTime    @default(now()) @db.Timestamp(0)
+  completedAt  DateTime?   @db.Timestamp(0)
+  applicant    CVApplicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+
+  @@index([applicantId, createdAt])
+}

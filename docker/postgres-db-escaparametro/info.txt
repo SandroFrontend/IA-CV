@@ -1,0 +1,8 @@
+#Database only backup
+pg_dump -U ico -d escaparametro --clean --if-exists > docker/postgres-db-escaparametro/escaparametro_backup.sql
+
+docker exec postgres-db-escaparametro-db-1 pg_dump -U ico -d escaparametro --clean --if-exists > docker/postgres-db-escaparametro/escaparametro_backup.sql
+
+
+#Carga del backup de forma manual en docker compose
+docker exec -i full-project-db-1 psql -U ico -d escaparametro < docker/postgres-db-escaparametro/escaparametro_backup.sql

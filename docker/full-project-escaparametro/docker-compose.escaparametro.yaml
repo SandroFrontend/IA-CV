@@ -1,0 +1,50 @@
+services:
+  escaparametro:
+    build:
+      context: ../..
+      dockerfile: docker/full-project-escaparametro/Dockerfile
+    restart: always
+    environment:
+      - CV_SESSION_SECRET=${CV_SESSION_SECRET:?Define CV_SESSION_SECRET antes de iniciar Docker}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.2}
+      - CV_UPLOAD_DEADLINE=${CV_UPLOAD_DEADLINE:-}
+      - DATABASE_URL=postgresql://ico:a@db:5432/escaparametro
+    volumes:
+      - /mnt/datos/escaparametro/uploads:/app/public/uploads:Z,U 
+    ports:
+      - "4002:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  db:
+    image: docker.io/library/postgres:18
+    restart: always
+    shm_size: 128mb
+    environment:
+      - POSTGRES_PASSWORD=a
+      - POSTGRES_USER=ico
+      - POSTGRES_DB=escaparametro
+    volumes:
+      - ../postgres-db-escaparametro/escaparametro_backup.sql:/docker-entrypoint-initdb.d/escaparametro_backup.sql
+      - data:/var/lib/postgresql/18/docker
+    networks:
+      - app_network
+
+volumes:
+  data:
+
+# volumes:
+#   pgdata:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /mnt/datos/app_data/pgdata
+
+networks:
+  app_network:

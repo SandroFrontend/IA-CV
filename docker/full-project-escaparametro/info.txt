@@ -1,0 +1,20 @@
+Comandos para eliminar la imagen y volver a construirla:
+
+docker compose -f docker/full-project-escaparametro/docker-compose.escaparametro.yaml down -v
+docker image rm full-project-escaparametro:latest
+docker compose -f docker/full-project-escaparametro/docker-compose.escaparametro.yaml up -d
+
+
+Para conservar los datos de la base de datos Porstgres:
+Almacenados en volumen: *_data
+Para copia de seguridad y restauración ver instrucciones en @/docker/postgres-db-escaparametro/info.txt
+
+Cuando realizo cambios en el proyecto y quiero verlos en el navegador, debo subir la imagen:
+
+$ ./scripts/upload_docker.sh
+$ pnpm run upload
+
+pero para que docker compose actualice los cambios debo realizar: (en ~/DWES/test/)
+
+docker compose -f docker/full-project-escaparametro/docker-compose.escaparametro.yaml \ 
+    up -d --build --force-recreate -V escaparametro
