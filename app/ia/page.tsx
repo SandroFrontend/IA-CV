@@ -19,10 +19,15 @@ export default async function CVAIAssessmentPage() {
 
   if (!applicant) {
     return (
-      <main className="min-h-screen bg-muted/40 px-4 py-10 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-[radial-gradient(circle_at_top,#fff1f2_0,transparent_28rem)] px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl space-y-5">
           <header className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold tracking-tight">Evaluación CV con IA</h1>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-red-700">
+              CIPFP Ausiàs March
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-neutral-950">
+              Evaluación <span className="text-red-700">CV con IA</span>
+            </h1>
             <p className="text-sm text-muted-foreground">
               Acceso del alumnado para recibir una valoración y practicar preguntas de entrevista.
             </p>
@@ -51,11 +56,16 @@ export default async function CVAIAssessmentPage() {
       : null;
 
   return (
-    <main className="min-h-screen bg-muted/40 px-4 py-10 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#fff1f2_0,transparent_28rem)] px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl space-y-6">
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Evaluación CV con IA</h1>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-red-700">
+              CIPFP Ausiàs March
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-neutral-950">
+              Evaluación <span className="text-red-700">CV con IA</span>
+            </h1>
             <p className="text-muted-foreground">
               Hola, {applicant.fullName}. Cuenta local: <span className="font-medium">{applicant.username}</span>
             </p>

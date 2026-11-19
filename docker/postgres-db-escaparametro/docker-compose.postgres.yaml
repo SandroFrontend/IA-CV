@@ -27,11 +27,11 @@ services:
     volumes:
       - qracer_data:/var/lib/postgresql/18/docker
     ports:
-      - 5432:5432
+      - 5433:5432
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 8081:8080
 volumes:
   qracer_data:

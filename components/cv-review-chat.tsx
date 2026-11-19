@@ -90,10 +90,11 @@ export function CVReviewChat({
   };
 
   return (
-    <Card className="border-muted shadow-sm">
+    <Card className="overflow-hidden border-gray-200 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.06)]">
+      <div className="h-1 w-full bg-red-700" />
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Sparkles className="size-5 text-primary" />
+        <CardTitle className="flex items-center gap-2 text-lg text-neutral-950">
+          <Sparkles className="size-5 text-red-700" />
           Evaluación guiada con IA
         </CardTitle>
         <CardDescription>
@@ -114,7 +115,12 @@ export function CVReviewChat({
               Al iniciar, el texto de tu PDF se procesa en el servidor con el modelo Ollama
               configurado por el centro.
             </p>
-            <Button type="button" onClick={startReview} disabled={isStarting}>
+            <Button
+              type="button"
+              className="bg-red-700 text-white hover:bg-red-800"
+              onClick={startReview}
+              disabled={isStarting}
+            >
               {isStarting ? (
                 <LoaderCircle className="size-4 animate-spin" />
               ) : (
@@ -257,9 +263,13 @@ function ReviewReport({
                 required
                 disabled={isSending}
                 placeholder="Escribe tu respuesta..."
-                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:border-red-700 focus-visible:ring-3 focus-visible:ring-red-700/20"
               />
-              <Button type="submit" disabled={isSending || !answer.trim()}>
+              <Button
+                type="submit"
+                className="bg-red-700 text-white hover:bg-red-800"
+                disabled={isSending || !answer.trim()}
+              >
                 {isSending ? (
                   <LoaderCircle className="size-4 animate-spin" />
                 ) : (

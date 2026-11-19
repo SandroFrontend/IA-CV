@@ -12,11 +12,12 @@ export function CVLoginForm() {
   const [state, action, isPending] = useActionState(loginCVApplicant, {});
 
   return (
-    <Card className="mx-auto w-full max-w-md border-muted shadow-sm">
+    <Card className="mx-auto w-full max-w-md overflow-hidden border-gray-200 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+      <div className="h-1 w-full bg-red-700" />
       <CardHeader>
-        <CardTitle>Acceso del alumnado</CardTitle>
+        <CardTitle className="text-neutral-950">Acceso profesorado</CardTitle>
         <CardDescription>
-          Inicia sesión para evaluar tu último currículum y realizar la entrevista guiada.
+          Inicia sesión para consultar los currículums o evaluar tu propio CV con IA.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -30,6 +31,7 @@ export function CVLoginForm() {
               minLength={3}
               maxLength={32}
               required
+              className="border-gray-200 focus-visible:border-red-700 focus-visible:ring-red-700/20"
             />
           </div>
           <div className="space-y-2">
@@ -41,6 +43,7 @@ export function CVLoginForm() {
               autoComplete="current-password"
               maxLength={128}
               required
+              className="border-gray-200 focus-visible:border-red-700 focus-visible:ring-red-700/20"
             />
           </div>
           {state.error && (
@@ -48,7 +51,11 @@ export function CVLoginForm() {
               {state.error}
             </p>
           )}
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button
+            type="submit"
+            className="h-10 w-full bg-red-700 text-white hover:bg-red-800"
+            disabled={isPending}
+          >
             {isPending ? "Comprobando..." : "Iniciar sesión"}
           </Button>
         </form>

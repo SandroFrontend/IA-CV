@@ -6,6 +6,8 @@ services:
     restart: always
     environment:
       - CV_SESSION_SECRET=${CV_SESSION_SECRET:?Define CV_SESSION_SECRET antes de iniciar Docker}
+      - CV_ADMIN_USERNAME=${CV_ADMIN_USERNAME:-admin}
+      - CV_ADMIN_PASSWORD=${CV_ADMIN_PASSWORD:-admin}
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
       - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.2}
       - CV_UPLOAD_DEADLINE=${CV_UPLOAD_DEADLINE:-}
